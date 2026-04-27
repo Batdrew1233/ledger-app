@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 public class Transaction {
-    private String deposit;
     private String date;
     private String time;
     private String description;
@@ -9,8 +8,7 @@ public class Transaction {
     private double amount;
 
     //Constructor
-    public Transaction(String deposit, String date, String time, String description, String vendor, double amount) {
-        this.deposit = deposit;
+    public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
         this.description = description;
@@ -18,14 +16,6 @@ public class Transaction {
         this.amount = amount;
     }
     //Getters and Setters
-    public String getDeposit() {
-        return deposit;
-    }
-
-    public void setDeposit(String deposit) {
-        this.deposit = deposit;
-    }
-
     public String getDate() {
         return date;
     }
