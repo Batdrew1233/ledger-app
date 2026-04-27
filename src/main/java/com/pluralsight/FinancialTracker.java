@@ -74,6 +74,8 @@ public class FinancialTracker {
         // TODO: create file if it does not exist, then read each line,
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
+
+
     }
 
     /* ------------------------------------------------------------------
@@ -88,6 +90,12 @@ public class FinancialTracker {
      */
     private static void addDeposit(Scanner scanner) {
         // TODO
+        System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+        String userDateTime = scanner.nextLine();
+        System.out.println("Description: ");
+        String userDescription = scanner.nextLine();
+        System.out.println("Vendor: ");
+        String userVendor = scanner.nextLine();
     }
 
     /**
