@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -75,15 +76,16 @@ public class FinancialTracker {
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
         try {
+            //Read fileName
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
 
             String line;
-
+            //Reads through the file and categorizes it splitting each section by "|"
             while ((line = bufferedReader.readLine()) != null){
                 String[] parts = line.split("\\|");
 
-                String date = parts[0].trim();
-                String time = parts[1].trim();
+                LocalDate date = LocalDate.parse(parts[0].trim(), DATE_FMT);
+                LocalTime time = LocalTime.parse(parts[1].trim(), TIME_FMT);
                 String description = parts[2].trim();
                 String vendor = parts[3].trim();
                 double amount = Double.parseDouble(parts[4].trim());
@@ -111,10 +113,48 @@ public class FinancialTracker {
         // TODO
         System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
         String userDateTime = scanner.nextLine();
+
+        LocalDateTime dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+
+        LocalDate userDate = dateTime.toLocalDate();
+        LocalTime userTime = dateTime.toLocalTime();
+
         System.out.println("Description: ");
         String userDescription = scanner.nextLine();
+
         System.out.println("Vendor: ");
         String userVendor = scanner.nextLine();
+
+        System.out.println("Amount (Positive): ");
+        double userAmount = scanner.nextDouble();
+        scanner.nextLine();
+
+        while(userAmount < 0){
+            System.out.println("Value is ot positive, try again");
+            System.out.println("Amount (Positive): ");
+            userAmount = scanner.nextDouble();
+            scanner.nextLine();
+        }
+
+        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
+        transactions.add(deposit);
+
+        try{
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
+
+            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + userAmount);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
+
+            System.out.println("Deposit recorded.");
+
+
+
+        }catch(Exception ex){
+            System.out.println("Something went wrong");
+        }
+
     }
 
     /**
