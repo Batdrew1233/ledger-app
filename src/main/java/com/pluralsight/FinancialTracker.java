@@ -130,7 +130,7 @@ public class FinancialTracker {
         scanner.nextLine();
 
         while(userAmount < 0){
-            System.out.println("Value is ot positive, try again");
+            System.out.println("Value is not positive, try again");
             System.out.println("Amount (Positive): ");
             userAmount = scanner.nextDouble();
             scanner.nextLine();
@@ -164,6 +164,51 @@ public class FinancialTracker {
      */
     private static void addPayment(Scanner scanner) {
         // TODO
+        System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+        String userDateTime = scanner.nextLine();
+
+        LocalDateTime dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+
+        LocalDate userDate = dateTime.toLocalDate();
+        LocalTime userTime = dateTime.toLocalTime();
+
+        System.out.println("Description: ");
+        String userDescription = scanner.nextLine();
+
+        System.out.println("Vendor: ");
+        String userVendor = scanner.nextLine();
+
+        System.out.println("Amount (Positive): ");
+        double userAmount = scanner.nextDouble();
+        scanner.nextLine();
+
+        while(userAmount < 0){
+            System.out.println("Value is not positive, try again");
+            System.out.println("Amount (Positive): ");
+            userAmount = scanner.nextDouble();
+            scanner.nextLine();
+        }
+        //Convert to negative
+        userAmount *= -1;
+
+        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
+        transactions.add(deposit);
+
+        try{
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
+
+            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + userAmount);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
+
+            System.out.println("Deposit recorded.");
+
+
+
+        }catch(Exception ex){
+            System.out.println("Something went wrong");
+        }
     }
 
     /* ------------------------------------------------------------------
@@ -196,7 +241,13 @@ public class FinancialTracker {
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
-    private static void displayLedger() { /* TODO – print all transactions in column format */ }
+    private static void displayLedger() { /* TODO – print all transactions in column format */
+        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("================================================================================================");
+        for(Transaction transaction :transactions){
+            System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n",transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount() );
+        }
+    }
 
     private static void displayDeposits() { /* TODO – only amount > 0               */ }
 
