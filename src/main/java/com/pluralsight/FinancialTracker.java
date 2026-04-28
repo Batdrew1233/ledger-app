@@ -111,6 +111,7 @@ public class FinancialTracker {
      */
     private static void addDeposit(Scanner scanner) {
         // TODO
+        //Get the date and time and using the date time formatter
         System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
         String userDateTime = scanner.nextLine();
 
@@ -119,26 +120,31 @@ public class FinancialTracker {
         LocalDate userDate = dateTime.toLocalDate();
         LocalTime userTime = dateTime.toLocalTime();
 
+        //Get the Description of transaction
         System.out.println("Description: ");
         String userDescription = scanner.nextLine();
 
+        //Get the Vendor of transaction
         System.out.println("Vendor: ");
         String userVendor = scanner.nextLine();
 
+        //Get the positive amount of transaction
         System.out.println("Amount (Positive): ");
         double userAmount = scanner.nextDouble();
         scanner.nextLine();
 
+        //Make sure the amount is positive
         while(userAmount < 0){
             System.out.println("Value is not positive, try again");
             System.out.println("Amount (Positive): ");
             userAmount = scanner.nextDouble();
             scanner.nextLine();
         }
-
+        //Gather information
         Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
         transactions.add(deposit);
 
+        //Write the information gathered into the csv file without deleting information
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
 
@@ -164,6 +170,7 @@ public class FinancialTracker {
      */
     private static void addPayment(Scanner scanner) {
         // TODO
+        //Get the date and time and using the date time formatter
         System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
         String userDateTime = scanner.nextLine();
 
@@ -172,16 +179,20 @@ public class FinancialTracker {
         LocalDate userDate = dateTime.toLocalDate();
         LocalTime userTime = dateTime.toLocalTime();
 
+        //Get description for transaction
         System.out.println("Description: ");
         String userDescription = scanner.nextLine();
 
+        //Get Vendor for transaction
         System.out.println("Vendor: ");
         String userVendor = scanner.nextLine();
 
+        //Get positive amount for transaction
         System.out.println("Amount (Positive): ");
         double userAmount = scanner.nextDouble();
         scanner.nextLine();
 
+        //Make sure the user is entering a positive amount
         while(userAmount < 0){
             System.out.println("Value is not positive, try again");
             System.out.println("Amount (Positive): ");
@@ -191,9 +202,11 @@ public class FinancialTracker {
         //Convert to negative
         userAmount *= -1;
 
+        //Update these values into transactions
         Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
         transactions.add(deposit);
 
+        //Write the information gathered into the csv file without deleting information
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
 
@@ -242,8 +255,10 @@ public class FinancialTracker {
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
     private static void displayLedger() { /* TODO – print all transactions in column format */
+        //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
+
         //Prints out every line in the file
         for(Transaction transaction :transactions){
             System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n",transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount() );
@@ -251,8 +266,10 @@ public class FinancialTracker {
     }
 
     private static void displayDeposits() { /* TODO – only amount > 0               */
+        //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
+
         // Searches through the file and only prints out positive numbers
         for(Transaction transaction :transactions) {
             if (transaction.getAmount() > 0) {
@@ -262,8 +279,10 @@ public class FinancialTracker {
     }
 
     private static void displayPayments() { /* TODO – only amount < 0               */
+        //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
+
         // Searches through the file and only prints out positive numbers
         for(Transaction transaction :transactions) {
             if (transaction.getAmount() < 0) {
