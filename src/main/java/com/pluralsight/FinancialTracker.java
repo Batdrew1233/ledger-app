@@ -445,6 +445,33 @@ public class FinancialTracker {
     private static void customSearch(Scanner scanner) {
         // TODO – prompt for any combination of date range, description,
         //        vendor, and exact amount, then display matches
+
+        //Asks the user for a start date to narrow search
+        System.out.println("Start date (yyyy-MM-dd, blank = none): ");
+        String searchStart = scanner.nextLine().trim();
+        //Checks if "searchStart" is empty. If it is the value is null, if not it will use parseDate Method to convert from string to date
+        LocalDate startDate = searchStart.isEmpty() ? null : parseDate(searchStart);
+
+        //Asks the user for end date to narrow search
+        System.out.println("End date (yyyy-MM-dd, blank = none): ");
+        String searchEnd = scanner.nextLine().trim();
+        //Checks if "searchEnd" is empty. If it is the value is null, if not it will use parseDate Method to convert from string to date
+        LocalDate endDate = searchEnd.isEmpty() ? null : parseDate(searchEnd);
+
+        //Asks the user for description
+        System.out.println("Description (blank = any): ");
+        String searchDescription = scanner.nextLine().trim();
+
+        //Asks the user for vendor
+        System.out.println("Vendor      (blank = any): ");
+        String searchVendor = scanner.nextLine().trim();
+
+        //Asks the user for amount
+        System.out.println("Amount      (blank = any): ");
+        String searchAmount = scanner.nextLine().trim();
+        //Checks if "searchAmount" is empty. If it is the value is null, if not it will use parseDouble Method to convert from string to double
+        Double amountInput = searchAmount.isEmpty() ? null : parseDouble(searchAmount);
+
     }
 
     /* ------------------------------------------------------------------
@@ -452,11 +479,23 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static LocalDate parseDate(String s) {
         /* TODO – return LocalDate or null */
-        return null;
+        try{
+            //converts string to LocalDate using the date formatter and returns it
+            return LocalDate.parse(s,DATE_FMT);
+        //If a problem occurs then it returns null
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     private static Double parseDouble(String s) {
         /* TODO – return Double   or null */
-        return null;
+        try{
+            //converts string to Double and returns it
+            return Double.parseDouble(s);
+        //If a problem occurs then it returns null
+        }catch (Exception ex) {
+            return null;
+        }
     }
 }
