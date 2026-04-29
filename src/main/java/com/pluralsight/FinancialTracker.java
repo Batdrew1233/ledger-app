@@ -352,8 +352,23 @@ public class FinancialTracker {
                     filterTransactionsByDate(start,end);
                 }
                 //Previous Year
-                case "4" -> {}
-                case "5" -> {/* TODO – prompt for vendor then report */ }
+                case "4" -> {
+                    //Uses todays date and stores the previous year
+                    LocalDate previousYear = LocalDate.now().minusYears(1);
+                    //Stores the first Month and Day of the previous year
+                    LocalDate start = previousYear.withDayOfYear(1);
+                    //Stores the last Month and Year from the previous year.
+                    LocalDate end = previousYear.withDayOfYear(previousYear.lengthOfYear());
+                    filterTransactionsByDate(start,end);
+                }
+
+                //Search By vendor
+                case "5" -> {
+                    System.out.print("Vendor Name: ");
+                    String vendor = scanner.nextLine();
+                    //Uses the vendor name to search
+                    filterTransactionsByVendor(vendor);
+                }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -366,6 +381,7 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+
         //Sorts Dates and Times then reverses the order to newest to oldest.
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
@@ -373,7 +389,7 @@ public class FinancialTracker {
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
-        // Searches through the file and only prints out positive numbers
+        // Searches through the file
         for(Transaction transaction :transactions) {
 
             //Gets the date after start and before end including the filtering dates.
@@ -386,6 +402,21 @@ public class FinancialTracker {
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
+        //Format for the display
+        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("================================================================================================");
+
+        // Searches through the file
+        for(Transaction transaction :transactions) {
+
+            //Finds if the vendor in transactions is equal to vendor asked in scanner and prints if it's a match
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n", transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            }
+        }
     }
 
     private static void customSearch(Scanner scanner) {
