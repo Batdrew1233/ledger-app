@@ -320,10 +320,39 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> {/* TODO – month-to-date report */ }
-                case "2" -> {/* TODO – previous month report */ }
-                case "3" -> {/* TODO – year-to-date report   */ }
-                case "4" -> {/* TODO – previous year report  */ }
+                //Month to date
+                case "1" -> {
+                //Local date end equals todays date
+                    LocalDate end = LocalDate.now();
+                //This makes the day out of the month to the 1st
+                    LocalDate start = end.withDayOfMonth(1);
+                //Call Method with start and end dates
+                    filterTransactionsByDate(start,end);
+                }
+
+                //Previous Month
+                case "2" -> {
+                    //This finds todays date and stores the value
+                    LocalDate todaysDate = LocalDate.now();
+                    //This finds the previous Month and stores that value
+                    LocalDate previousMonth = todaysDate.minusMonths(1);
+                    //Makes the previous Months day to the first
+                    LocalDate start = previousMonth.withDayOfMonth(1);
+                    //This will store in 'end' the last day of the previous month
+                    LocalDate end = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+                }
+
+                //Year to Date
+                case "3" -> {
+                    //Local date end equals todays date
+                    LocalDate end = LocalDate.now();
+                    //This makes the Month and day to the 1st
+                    LocalDate start = end.withDayOfYear(1);
+                    //Call Method with start and end dates
+                    filterTransactionsByDate(start,end);
+                }
+                //Previous Year
+                case "4" -> {}
                 case "5" -> {/* TODO – prompt for vendor then report */ }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
@@ -337,6 +366,21 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
+        //Format for the display
+        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("================================================================================================");
+
+        // Searches through the file and only prints out positive numbers
+        for(Transaction transaction :transactions) {
+
+            //Gets the date after start and before end including the filtering dates.
+            if (!transaction.getDate().isBefore(start) && !transaction.getDate().isAfter(end)) {
+                System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n", transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            }
+        }
 
     }
 
