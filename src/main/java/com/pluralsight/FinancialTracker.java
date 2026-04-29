@@ -340,6 +340,7 @@ public class FinancialTracker {
                     LocalDate start = previousMonth.withDayOfMonth(1);
                     //This will store in 'end' the last day of the previous month
                     LocalDate end = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+                    filterTransactionsByDate(start,end);
                 }
 
                 //Year to Date
@@ -385,6 +386,8 @@ public class FinancialTracker {
         //Sorts Dates and Times then reverses the order to newest to oldest.
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
+        boolean found = false;
+
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -394,9 +397,17 @@ public class FinancialTracker {
 
             //Gets the date after start and before end including the filtering dates.
             if (!transaction.getDate().isBefore(start) && !transaction.getDate().isAfter(end)) {
+
+                found = true;
+
                 System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n", transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
             }
         }
+            //If is no data between the dates this will print
+        if (!found){
+            System.out.println("No transactions found for these dates");
+            }
+
 
     }
 
@@ -404,6 +415,8 @@ public class FinancialTracker {
         // TODO – iterate transactions, print those with matching vendor
         //Sorts Dates and Times then reverses the order to newest to oldest.
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
+        boolean found = false;
 
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -414,9 +427,17 @@ public class FinancialTracker {
 
             //Finds if the vendor in transactions is equal to vendor asked in scanner and prints if it's a match
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+
+                found = true;
+
                 System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n", transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
             }
         }
+            //If no vendor is found it will print
+        if(!found){
+            System.out.println("No transactions found for this vendor");
+            }
+
     }
 
     private static void customSearch(Scanner scanner) {
