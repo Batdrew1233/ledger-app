@@ -322,44 +322,46 @@ public class FinancialTracker {
             switch (input) {
                 //Month to date
                 case "1" -> {
-                //Local date end equals todays date
+                //Local date "end" equals today's date
                     LocalDate end = LocalDate.now();
                 //This makes the day out of the month to the 1st
                     LocalDate start = end.withDayOfMonth(1);
-                //Call Method with start and end dates
+                //Call Method with "start" and "end" dates
                     filterTransactionsByDate(start,end);
                 }
 
                 //Previous Month
                 case "2" -> {
-                    //This finds todays date and stores the value
-                    LocalDate todaysDate = LocalDate.now();
+                    //This finds today's date and stores the value
+                    LocalDate todayDate = LocalDate.now();
                     //This finds the previous Month and stores that value
-                    LocalDate previousMonth = todaysDate.minusMonths(1);
+                    LocalDate previousMonth = todayDate.minusMonths(1);
                     //Makes the previous Months day to the first
                     LocalDate start = previousMonth.withDayOfMonth(1);
-                    //This will store in 'end' the last day of the previous month
+                    //This will store in "end" the last day of the previous month
                     LocalDate end = previousMonth.withDayOfMonth(previousMonth.lengthOfMonth());
+                    //Call Method with "start" and "end" dates
                     filterTransactionsByDate(start,end);
                 }
 
                 //Year to Date
                 case "3" -> {
-                    //Local date end equals todays date
+                    //Local date end equals today's date
                     LocalDate end = LocalDate.now();
                     //This makes the Month and day to the 1st
                     LocalDate start = end.withDayOfYear(1);
-                    //Call Method with start and end dates
+                    //Call Method with "start" and "end" dates
                     filterTransactionsByDate(start,end);
                 }
                 //Previous Year
                 case "4" -> {
-                    //Uses todays date and stores the previous year
+                    //Uses today's date and stores the previous year
                     LocalDate previousYear = LocalDate.now().minusYears(1);
                     //Stores the first Month and Day of the previous year
                     LocalDate start = previousYear.withDayOfYear(1);
                     //Stores the last Month and Year from the previous year.
                     LocalDate end = previousYear.withDayOfYear(previousYear.lengthOfYear());
+                    //Call Method with "start" and "end" dates
                     filterTransactionsByDate(start,end);
                 }
 
