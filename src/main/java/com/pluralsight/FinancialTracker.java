@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -255,6 +256,9 @@ public class FinancialTracker {
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
     private static void displayLedger() { /* TODO – print all transactions in column format */
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -266,6 +270,9 @@ public class FinancialTracker {
     }
 
     private static void displayDeposits() { /* TODO – only amount > 0               */
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -279,6 +286,9 @@ public class FinancialTracker {
     }
 
     private static void displayPayments() { /* TODO – only amount < 0               */
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -327,6 +337,7 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+
     }
 
     private static void filterTransactionsByVendor(String vendor) {
