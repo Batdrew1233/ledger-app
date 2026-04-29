@@ -472,6 +472,64 @@ public class FinancialTracker {
         //Checks if "searchAmount" is empty. If it is the value is null, if not it will use parseDouble Method to convert from string to double
         Double amountInput = searchAmount.isEmpty() ? null : parseDouble(searchAmount);
 
+        //If this is stays false it will print cant find search
+        boolean found = false;
+
+        //search through transactions file
+        for (Transaction transaction : transactions){
+
+            //This will sort between if the filters can be found or not
+            boolean matches = true;
+
+            //Start Date
+            //This will check if the start date isn't null and the transaction line date is before the user filtering date
+            if (startDate != null && transaction.getDate().isBefore(startDate)){
+                // If the transaction date is before the user start date then we don't need it
+                matches = false;
+            }
+
+            //End Date
+            //This will check if the end date isn't null and the transaction line date is after the user filtering date
+            if (endDate != null && transaction.getDate().isAfter(endDate)){
+                // If the transaction date is after the user end date then we don't need it
+                matches = false;
+            }
+
+            //Description
+            //This will check if the user description is empty and if the file description and user description match.
+            if (!searchDescription.isEmpty() && !transaction.getDescription().equalsIgnoreCase(searchDescription)){
+                // If the transaction description doesn't match then we don't need it
+                matches = false;
+            }
+
+            //Vendor
+            //This will check if the user vendor is empty and if the file vendor matches the user vendor.
+            if (!searchVendor.isEmpty() && !transaction.getVendor().equalsIgnoreCase(searchVendor)){
+                //If the vendors don't match we don't need it
+                matches = false;
+            }
+
+            //Amount
+            //This will check if the user typed an amount and if the amount from user and file match.
+            if (amountInput != null && transaction.getAmount() != amountInput){
+                //If the amounts don't match we don't need it
+                matches = false;
+            }
+
+            //If after the search if the value matches then we can print all matches
+            if(matches){
+
+                //It won't print about not no transactions found
+                found = true;
+
+                //This will print all the filtered results
+                System.out.printf("%-12s %-10s %-30s %-25s %10.2f%n", transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT), transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            }
+        }
+        if(!found){
+            System.out.println("No transaction found.");
+        }
+
     }
 
     /* ------------------------------------------------------------------
