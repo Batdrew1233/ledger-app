@@ -123,34 +123,50 @@ public class FinancialTracker {
     private static void addDeposit(Scanner scanner) {
         // TODO
         //Get the date and time and using the date time formatter
-        System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
-        String userDateTime = scanner.nextLine();
+        LocalDateTime dateTime = null;
+        while (dateTime == null) {
+            System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+            String userDateTime = scanner.nextLine();
 
-        LocalDateTime dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+            try{
+                dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+            }catch (Exception ex){
+                System.out.println("Invalid date/time format.");
+            }
+        }
 
         LocalDate userDate = dateTime.toLocalDate();
         LocalTime userTime = dateTime.toLocalTime();
 
-        //Get the Description of transaction
-        System.out.println("Description: ");
-        String userDescription = scanner.nextLine();
-
-        //Get the Vendor of transaction
-        System.out.println("Vendor: ");
-        String userVendor = scanner.nextLine();
-
-        //Get the positive amount of transaction
-        System.out.println("Amount (Positive): ");
-        double userAmount = scanner.nextDouble();
-        scanner.nextLine();
-
-        //Make sure the amount is positive
-        while(userAmount < 0){
-            System.out.println("Value is not positive, try again");
-            System.out.println("Amount (Positive): ");
-            userAmount = scanner.nextDouble();
-            scanner.nextLine();
+        //Get the Description for transaction
+        String userDescription = "";
+        while(userDescription.isEmpty()) {
+            System.out.println("Description: ");
+            userDescription = scanner.nextLine().trim();
+            if (userDescription.isEmpty()){
+                System.out.println("Description cannot be blank.");
+            }
         }
+        //Get the Vendor for transaction
+        String userVendor = "";
+        while(userVendor.isEmpty()) {
+            System.out.println("Vendor: ");
+            userVendor = scanner.nextLine().trim();
+            if (userVendor.isEmpty()){
+                System.out.println("Vendor cannot be blank.");
+            }
+        }
+
+        //Get the positive amount for transaction
+        Double userAmount = null;
+        while(userAmount == null || userAmount <= 0) {
+            System.out.println("Amount (Positive): ");
+            userAmount = parseDouble(scanner.nextLine());
+            if (userAmount ==  null || userAmount <= 0){
+                System.out.println("Enter a valid positive amount,");
+            }
+        }
+
         //Gather information
         Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
         transactions.add(deposit);
@@ -182,39 +198,52 @@ public class FinancialTracker {
     private static void addPayment(Scanner scanner) {
         // TODO
         //Get the date and time and using the date time formatter
-        System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
-        String userDateTime = scanner.nextLine();
+        LocalDateTime dateTime = null;
+        while (dateTime == null) {
+            System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+            String userDateTime = scanner.nextLine();
 
-        LocalDateTime dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+            try{
+                dateTime = LocalDateTime.parse(userDateTime, DATETIME_FMT);
+            }catch (Exception ex){
+                System.out.println("Invalid date/time format.");
+            }
+        }
 
         LocalDate userDate = dateTime.toLocalDate();
         LocalTime userTime = dateTime.toLocalTime();
 
-        //Get description for transaction
-        System.out.println("Description: ");
-        String userDescription = scanner.nextLine();
-
-        //Get Vendor for transaction
-        System.out.println("Vendor: ");
-        String userVendor = scanner.nextLine();
-
-        //Get positive amount for transaction
-        System.out.println("Amount (Positive): ");
-        double userAmount = scanner.nextDouble();
-        scanner.nextLine();
-
-        //Make sure the user is entering a positive amount
-        while(userAmount < 0){
-            System.out.println("Value is not positive, try again");
-            System.out.println("Amount (Positive): ");
-            userAmount = scanner.nextDouble();
-            scanner.nextLine();
+        //Get the Description for transaction
+        String userDescription = "";
+        while(userDescription.isEmpty()) {
+            System.out.println("Description: ");
+            userDescription = scanner.nextLine().trim();
+            if (userDescription.isEmpty()){
+                System.out.println("Description cannot be blank.");
+            }
         }
-        //Convert to negative
-        userAmount *= -1;
+        //Get the Vendor for transaction
+        String userVendor = "";
+        while(userVendor.isEmpty()) {
+            System.out.println("Vendor: ");
+            userVendor = scanner.nextLine().trim();
+            if (userVendor.isEmpty()){
+                System.out.println("Vendor cannot be blank.");
+            }
+        }
+
+        //Get the positive amount for transaction
+        Double userAmount = null;
+        while(userAmount == null || userAmount <= 0) {
+            System.out.println("Amount (Positive): ");
+            userAmount = parseDouble(scanner.nextLine());
+            if (userAmount ==  null || userAmount <= 0){
+                System.out.println("Enter a valid positive amount,");
+            }
+        }
 
         //Update these values into transactions
-        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
+        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, -userAmount);
         transactions.add(deposit);
 
         //Write the information gathered into the csv file without deleting information
