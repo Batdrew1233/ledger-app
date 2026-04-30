@@ -9,14 +9,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 
-/*
- * Capstone skeleton – personal finance tracker.
- * ------------------------------------------------
- * File format  (pipe-delimited)
- *     yyyy-MM-dd|HH:mm:ss|description|vendor|amount
- * A deposit has a positive amount; a payment is stored
- * as a negative amount.
- */
 public class FinancialTracker {
 
     /* ------------------------------------------------------------------
@@ -64,19 +56,15 @@ public class FinancialTracker {
         scanner.close();
     }
 
-    /* ------------------------------------------------------------------
-       File I/O
-       ------------------------------------------------------------------ */
 
-    /**
-     * Load transactions from FILE_NAME.
-     * • If the file doesn’t exist, create an empty one so that future writes succeed.
-     * • Each line looks like: date|time|description|vendor|amount
+    /*
+    Load transactions from CSV file into transaction list.
+    Create the file if it doesn't exist
+    Reads each line from file and splits it using "|"
+    Converts date and time strings into LocalDate and LocalTime
+    Creates transaction objects and stores them in the array list
      */
     public static void loadTransactions(String fileName) {
-        // TODO: create file if it does not exist, then read each line,
-        //       parse the five fields, build a Transaction object,
-        //       and add it to the transactions list.
         try {
             //Checks if file exists
             File file = new File(fileName);
@@ -111,18 +99,15 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Add new transactions
-       ------------------------------------------------------------------ */
 
-    /**
-     * Prompt for ONE date+time string in the format
-     * "yyyy-MM-dd HH:mm:ss", plus description, vendor, amount.
-     * Validate that the amount entered is positive.
-     * Store the amount as-is (positive) and append to the file.
+    /*
+    Add a deposit transaction
+    prompts user for date/time, description, vendor, and amount
+    makes sure the amount is positive
+    stores the transaction in the transaction list
+    appends the transaction to the CSV file
      */
     private static void addDeposit(Scanner scanner) {
-        // TODO
         //Get the date and time and using the date time formatter
         LocalDateTime dateTime = null;
         while (dateTime == null) {
@@ -191,13 +176,14 @@ public class FinancialTracker {
 
     }
 
-    /**
-     * Same prompts as addDeposit.
-     * Amount must be entered as a positive number,
-     * then converted to a negative amount before storing.
+    /*
+    Add a payment transaction
+    prompts user for date/time, description, vendor, and amount
+    makes sure the amount is positive
+    converts to amount to negative
+    stores transaction in the arraylist and CSV file
      */
     private static void addPayment(Scanner scanner) {
-        // TODO
         //Get the date and time and using the date time formatter
         LocalDateTime dateTime = null;
         while (dateTime == null) {
@@ -265,9 +251,12 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Ledger menu
-       ------------------------------------------------------------------ */
+    /*
+    Display the ledger menu
+    formats transactions from newest to oldest
+    allows user to view transactions and reports
+    continues to run until user returns
+     */
     private static void ledgerMenu(Scanner scanner) {
         //Sorts Dates and Times then reverses the order to newest to oldest.
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
@@ -295,10 +284,11 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Display helpers: show data in neat columns
-       ------------------------------------------------------------------ */
-    private static void displayLedger() { /* TODO – print all transactions in column format */
+    /*
+    Displays all transactions
+    prints transactions in formatted columns from newest to oldest
+     */
+    private static void displayLedger() {
         //Format for the display
         System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -309,7 +299,11 @@ public class FinancialTracker {
         }
     }
 
-    private static void displayDeposits() { /* TODO – only amount > 0               */
+    /*
+    Display only deposit transactions.
+    displays transaction where the amount is greater than 0
+     */
+    private static void displayDeposits() {
         //Format for the display
         System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -322,7 +316,11 @@ public class FinancialTracker {
         }
     }
 
-    private static void displayPayments() { /* TODO – only amount < 0               */
+    /*
+    Display only payment transactions.
+    displays transactions where the amount is less than 0
+     */
+    private static void displayPayments() {
         //Format for the display
         System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -335,9 +333,10 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Reports menu
-       ------------------------------------------------------------------ */
+    /*
+    Display the report menu
+    allows user to run preset and custom reports
+     */
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
@@ -415,12 +414,12 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Reporting helpers
-       ------------------------------------------------------------------ */
+    /*
+    Filter transactions by date range.
+    displays transactions between start and end dates
+    includes the boundary dates in the search
+     */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
-        // TODO – iterate transactions, print those within the range
-
         boolean found = false;
 
         //Format for the display
@@ -446,9 +445,11 @@ public class FinancialTracker {
 
     }
 
+    /*
+    Filter transactions by vendor name.
+    displays transactions matching the entered vendor
+     */
     private static void filterTransactionsByVendor(String vendor) {
-        // TODO – iterate transactions, print those with matching vendor
-
         boolean found = false;
 
         //Format for the display
@@ -473,10 +474,12 @@ public class FinancialTracker {
 
     }
 
+    /*
+    Perform a custom search
+    allows filtering by start date, end date, description, vendor, and exact amount
+    if the user leaves it blank then no filter is applied
+     */
     private static void customSearch(Scanner scanner) {
-        // TODO – prompt for any combination of date range, description,
-        //        vendor, and exact amount, then display matches
-
         //Asks the user for a start date to narrow search
         LocalDate userStart = null;
         while(true){
@@ -602,11 +605,12 @@ public class FinancialTracker {
 
     }
 
-    /* ------------------------------------------------------------------
-       Utility parsers (you can reuse in many places)
-       ------------------------------------------------------------------ */
+    /*
+    Converts a string into LocalDate
+    uses DATE_FMT to format the date
+    returns null if input cant work
+     */
     private static LocalDate parseDate(String s) {
-        /* TODO – return LocalDate or null */
         try{
             //converts string to LocalDate using the date formatter and returns it
             return LocalDate.parse(s,DATE_FMT);
@@ -616,8 +620,11 @@ public class FinancialTracker {
         }
     }
 
+    /*
+    Converts a string into a double
+    returns null if the input doesn't work
+     */
     private static Double parseDouble(String s) {
-        /* TODO – return Double   or null */
         try{
             //converts string to Double and returns it
             return Double.parseDouble(s);
