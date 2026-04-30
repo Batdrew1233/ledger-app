@@ -43,12 +43,13 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to TransactionApp");
+            System.out.println("\nWelcome to TransactionApp");
             System.out.println("Choose an option:");
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment (Debit)");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
+            System.out.print("Your Choice: ");
 
             String input = scanner.nextLine().trim();
 
@@ -125,7 +126,7 @@ public class FinancialTracker {
         //Get the date and time and using the date time formatter
         LocalDateTime dateTime = null;
         while (dateTime == null) {
-            System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+            System.out.print("\nDate & Time (yyyy-MM-dd HH:mm:ss): ");
             String userDateTime = scanner.nextLine();
 
             try{
@@ -141,7 +142,7 @@ public class FinancialTracker {
         //Get the Description for transaction
         String userDescription = "";
         while(userDescription.isEmpty()) {
-            System.out.println("Description: ");
+            System.out.print("\nDescription: ");
             userDescription = scanner.nextLine().trim();
             if (userDescription.isEmpty()){
                 System.out.println("Description cannot be blank.");
@@ -150,7 +151,7 @@ public class FinancialTracker {
         //Get the Vendor for transaction
         String userVendor = "";
         while(userVendor.isEmpty()) {
-            System.out.println("Vendor: ");
+            System.out.print("\nVendor: ");
             userVendor = scanner.nextLine().trim();
             if (userVendor.isEmpty()){
                 System.out.println("Vendor cannot be blank.");
@@ -160,7 +161,7 @@ public class FinancialTracker {
         //Get the positive amount for transaction
         Double userAmount = null;
         while(userAmount == null || userAmount <= 0) {
-            System.out.println("Amount (Positive): ");
+            System.out.print("\nAmount (Positive): ");
             userAmount = parseDouble(scanner.nextLine());
             if (userAmount ==  null || userAmount <= 0){
                 System.out.println("Enter a valid positive amount,");
@@ -180,12 +181,12 @@ public class FinancialTracker {
 
             bufferedWriter.close();
 
-            System.out.println("Deposit recorded.");
+            System.out.println("\nDeposit recorded.");
 
 
 
         }catch(Exception ex){
-            System.out.println("Something went wrong");
+            System.out.println("\nSomething went wrong");
         }
 
     }
@@ -200,7 +201,7 @@ public class FinancialTracker {
         //Get the date and time and using the date time formatter
         LocalDateTime dateTime = null;
         while (dateTime == null) {
-            System.out.println("Date & Time (yyyy-MM-dd HH:mm:ss): ");
+            System.out.print("\nDate & Time (yyyy-MM-dd HH:mm:ss): ");
             String userDateTime = scanner.nextLine();
 
             try{
@@ -216,7 +217,7 @@ public class FinancialTracker {
         //Get the Description for transaction
         String userDescription = "";
         while(userDescription.isEmpty()) {
-            System.out.println("Description: ");
+            System.out.print("\nDescription: ");
             userDescription = scanner.nextLine().trim();
             if (userDescription.isEmpty()){
                 System.out.println("Description cannot be blank.");
@@ -225,7 +226,7 @@ public class FinancialTracker {
         //Get the Vendor for transaction
         String userVendor = "";
         while(userVendor.isEmpty()) {
-            System.out.println("Vendor: ");
+            System.out.print("\nVendor: ");
             userVendor = scanner.nextLine().trim();
             if (userVendor.isEmpty()){
                 System.out.println("Vendor cannot be blank.");
@@ -235,10 +236,10 @@ public class FinancialTracker {
         //Get the positive amount for transaction
         Double userAmount = null;
         while(userAmount == null || userAmount <= 0) {
-            System.out.println("Amount (Positive): ");
+            System.out.print("\nAmount (Positive): ");
             userAmount = parseDouble(scanner.nextLine());
             if (userAmount ==  null || userAmount <= 0){
-                System.out.println("Enter a valid positive amount,");
+                System.out.println("\nEnter a valid positive amount,");
             }
         }
 
@@ -255,12 +256,12 @@ public class FinancialTracker {
 
             bufferedWriter.close();
 
-            System.out.println("Deposit recorded.");
+            System.out.println("\nDeposit recorded.");
 
 
 
         }catch(Exception ex){
-            System.out.println("Something went wrong");
+            System.out.println("\nSomething went wrong");
         }
     }
 
@@ -272,13 +273,14 @@ public class FinancialTracker {
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
         boolean running = true;
         while (running) {
-            System.out.println("Ledger");
+            System.out.println("\nLedger");
             System.out.println("Choose an option:");
             System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
             System.out.println("R) Reports");
             System.out.println("H) Home");
+            System.out.print("Your Choice: ");
 
             String input = scanner.nextLine().trim();
 
@@ -298,7 +300,7 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void displayLedger() { /* TODO – print all transactions in column format */
         //Format for the display
-        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
         //Prints out every line in the file
@@ -309,7 +311,7 @@ public class FinancialTracker {
 
     private static void displayDeposits() { /* TODO – only amount > 0               */
         //Format for the display
-        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
         // Searches through the file and only prints out positive numbers
@@ -322,7 +324,7 @@ public class FinancialTracker {
 
     private static void displayPayments() { /* TODO – only amount < 0               */
         //Format for the display
-        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
         // Searches through the file and only prints out positive numbers
@@ -339,7 +341,7 @@ public class FinancialTracker {
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
-            System.out.println("Reports");
+            System.out.println("\nReports");
             System.out.println("Choose an option:");
             System.out.println("1) Month To Date");
             System.out.println("2) Previous Month");
@@ -348,6 +350,8 @@ public class FinancialTracker {
             System.out.println("5) Search by Vendor");
             System.out.println("6) Custom Search");
             System.out.println("0) Back");
+            System.out.print("Your Choice: ");
+
 
             String input = scanner.nextLine().trim();
 
@@ -399,7 +403,7 @@ public class FinancialTracker {
 
                 //Search By vendor
                 case "5" -> {
-                    System.out.print("Vendor Name: ");
+                    System.out.print("\nVendor Name: ");
                     String vendor = scanner.nextLine();
                     //Uses the vendor name to search
                     filterTransactionsByVendor(vendor);
@@ -420,7 +424,7 @@ public class FinancialTracker {
         boolean found = false;
 
         //Format for the display
-        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
         // Searches through the file
@@ -448,7 +452,7 @@ public class FinancialTracker {
         boolean found = false;
 
         //Format for the display
-        System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
 
         // Searches through the file
@@ -476,7 +480,7 @@ public class FinancialTracker {
         //Asks the user for a start date to narrow search
         LocalDate userStart = null;
         while(true){
-            System.out.println("Start date (yyyy-MM-dd, blank = none): ");
+            System.out.print("\nStart date (yyyy-MM-dd, blank = none): ");
             String searchStart = scanner.nextLine().trim();
 
             if (searchStart.isEmpty()){
@@ -494,7 +498,7 @@ public class FinancialTracker {
         //Asks the user for end date to narrow search
         LocalDate userEnd = null;
         while(true){
-            System.out.println("Start date (yyyy-MM-dd, blank = none): ");
+            System.out.print("\nEnd date (yyyy-MM-dd, blank = none): ");
             String searchEnd = scanner.nextLine().trim();
 
             if (searchEnd.isEmpty()){
@@ -510,17 +514,17 @@ public class FinancialTracker {
         }
 
         //Asks the user for description
-        System.out.println("Description (blank = any): ");
+        System.out.print("\nDescription (blank = any): ");
         String searchDescription = scanner.nextLine().trim();
 
         //Asks the user for vendor
-        System.out.println("Vendor      (blank = any): ");
+        System.out.print("\nVendor      (blank = any): ");
         String searchVendor = scanner.nextLine().trim();
 
         //Asks the user for amount
         Double amountInput = null;
         while(true) {
-            System.out.println("Amount      (blank = any): ");
+            System.out.print("\nAmount      (blank = any): ");
             String searchAmount = scanner.nextLine().trim();
 
             if (searchAmount.isEmpty()){
@@ -536,6 +540,10 @@ public class FinancialTracker {
 
         //If this is stays false it will print cant find search
         boolean found = false;
+
+        //Format for the display
+        System.out.printf("\n%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("================================================================================================");
 
         //search through transactions file
         for (Transaction transaction : transactions){
