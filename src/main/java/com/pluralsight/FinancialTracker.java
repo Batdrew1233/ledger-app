@@ -268,6 +268,8 @@ public class FinancialTracker {
        Ledger menu
        ------------------------------------------------------------------ */
     private static void ledgerMenu(Scanner scanner) {
+        //Sorts Dates and Times then reverses the order to newest to oldest.
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
         boolean running = true;
         while (running) {
             System.out.println("Ledger");
@@ -295,9 +297,6 @@ public class FinancialTracker {
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
     private static void displayLedger() { /* TODO – print all transactions in column format */
-        //Sorts Dates and Times then reverses the order to newest to oldest.
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
-
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -309,9 +308,6 @@ public class FinancialTracker {
     }
 
     private static void displayDeposits() { /* TODO – only amount > 0               */
-        //Sorts Dates and Times then reverses the order to newest to oldest.
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
-
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -325,9 +321,6 @@ public class FinancialTracker {
     }
 
     private static void displayPayments() { /* TODO – only amount < 0               */
-        //Sorts Dates and Times then reverses the order to newest to oldest.
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
-
         //Format for the display
         System.out.printf("%-12s %-10s %-30s %-25s %10s%n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("================================================================================================");
@@ -424,9 +417,6 @@ public class FinancialTracker {
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
 
-        //Sorts Dates and Times then reverses the order to newest to oldest.
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
-
         boolean found = false;
 
         //Format for the display
@@ -454,8 +444,6 @@ public class FinancialTracker {
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
-        //Sorts Dates and Times then reverses the order to newest to oldest.
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
         boolean found = false;
 
@@ -486,16 +474,40 @@ public class FinancialTracker {
         //        vendor, and exact amount, then display matches
 
         //Asks the user for a start date to narrow search
-        System.out.println("Start date (yyyy-MM-dd, blank = none): ");
-        String searchStart = scanner.nextLine().trim();
-        //Checks if "searchStart" is empty. If it is the value is null, if not it will use parseDate Method to convert from string to date
-        LocalDate startDate = searchStart.isEmpty() ? null : parseDate(searchStart);
+        LocalDate userStart = null;
+        while(true){
+            System.out.println("Start date (yyyy-MM-dd, blank = none): ");
+            String searchStart = scanner.nextLine().trim();
+
+            if (searchStart.isEmpty()){
+                break;
+            }
+            //use the parseDate Method to return null if incorrect
+            userStart = parseDate(searchStart);
+
+            if(userStart != null){
+                break;
+            }
+            System.out.println("Invalid date format.");
+            }
 
         //Asks the user for end date to narrow search
-        System.out.println("End date (yyyy-MM-dd, blank = none): ");
-        String searchEnd = scanner.nextLine().trim();
-        //Checks if "searchEnd" is empty. If it is the value is null, if not it will use parseDate Method to convert from string to date
-        LocalDate endDate = searchEnd.isEmpty() ? null : parseDate(searchEnd);
+        LocalDate userEnd = null;
+        while(true){
+            System.out.println("Start date (yyyy-MM-dd, blank = none): ");
+            String searchEnd = scanner.nextLine().trim();
+
+            if (searchEnd.isEmpty()){
+                break;
+            }
+            //use the parseDate Method to return null if incorrect
+            userEnd = parseDate(searchEnd);
+
+            if(userEnd != null){
+                break;
+            }
+            System.out.println("Invalid date format.");
+        }
 
         //Asks the user for description
         System.out.println("Description (blank = any): ");
@@ -506,10 +518,21 @@ public class FinancialTracker {
         String searchVendor = scanner.nextLine().trim();
 
         //Asks the user for amount
-        System.out.println("Amount      (blank = any): ");
-        String searchAmount = scanner.nextLine().trim();
-        //Checks if "searchAmount" is empty. If it is the value is null, if not it will use parseDouble Method to convert from string to double
-        Double amountInput = searchAmount.isEmpty() ? null : parseDouble(searchAmount);
+        Double amountInput = null;
+        while(true) {
+            System.out.println("Amount      (blank = any): ");
+            String searchAmount = scanner.nextLine().trim();
+
+            if (searchAmount.isEmpty()){
+                break;
+            }
+            amountInput = parseDouble(searchAmount);
+
+            if(amountInput != null){
+                break;
+            }
+            System.out.println("Invalid amount");
+        }
 
         //If this is stays false it will print cant find search
         boolean found = false;
@@ -522,14 +545,14 @@ public class FinancialTracker {
 
             //Start Date
             //This will check if the start date isn't null and the transaction line date is before the user filtering date
-            if (startDate != null && transaction.getDate().isBefore(startDate)){
+            if (userStart != null && transaction.getDate().isBefore(userStart)){
                 // If the transaction date is before the user start date then we don't need it
                 matches = false;
             }
 
             //End Date
             //This will check if the end date isn't null and the transaction line date is after the user filtering date
-            if (endDate != null && transaction.getDate().isAfter(endDate)){
+            if (userEnd != null && transaction.getDate().isAfter(userEnd)){
                 // If the transaction date is after the user end date then we don't need it
                 matches = false;
             }
