@@ -159,7 +159,7 @@ public class FinancialTracker {
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
 
-            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + userAmount);
+            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + String.format("%.2f", userAmount));
             bufferedWriter.newLine();
 
             bufferedWriter.close();
@@ -221,7 +221,7 @@ public class FinancialTracker {
         try{
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME,true));
 
-            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + userAmount);
+            bufferedWriter.write(userDate.format(DATE_FMT) + "|" + userTime.format(TIME_FMT) + "|" + userDescription + "|" + userVendor + "|" + String.format("%.2f", userAmount));
             bufferedWriter.newLine();
 
             bufferedWriter.close();
