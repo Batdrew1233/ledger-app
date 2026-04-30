@@ -77,8 +77,18 @@ public class FinancialTracker {
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
         try {
+            //Checks if file exists
+            File file = new File(fileName);
+            if (!file.exists()){
+                boolean created = file.createNewFile();
+
+                if(created) {
+                    System.out.println("File created");
+                }
+            }
+
             //Read fileName
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
             String line;
             //Reads through the file and categorizes it splitting each section by "|"
