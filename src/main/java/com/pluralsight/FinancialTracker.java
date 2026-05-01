@@ -244,7 +244,7 @@ public class FinancialTracker {
 
             bufferedWriter.close();
 
-            System.out.println("\nDeposit recorded.");
+            System.out.println("\nPayment recorded.");
 
 
 
