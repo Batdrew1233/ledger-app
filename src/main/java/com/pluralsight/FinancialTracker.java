@@ -228,9 +228,11 @@ public class FinancialTracker {
                 System.out.println("\nEnter a valid positive amount,");
             }
         }
+        //Converts user amount to negative
+        userAmount *= 1;
 
         //Update these values into transactions
-        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, -userAmount);
+        Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
         transactions.add(deposit);
 
         //Write the information gathered into the csv file without deleting information
