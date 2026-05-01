@@ -229,7 +229,7 @@ public class FinancialTracker {
             }
         }
         //Converts user amount to negative
-        userAmount *= 1;
+        userAmount *= -1;
 
         //Update these values into transactions
         Transaction deposit = new Transaction(userDate, userTime, userDescription, userVendor, userAmount);
