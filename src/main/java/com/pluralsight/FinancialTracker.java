@@ -503,7 +503,7 @@ public class FinancialTracker {
         //Asks the user for end date to narrow search
         LocalDate userEnd = null;
         while(true){
-            System.out.print("\nEnd date (yyyy-MM-dd, blank = none): ");
+            System.out.print("End date (yyyy-MM-dd, blank = none): ");
             String searchEnd = scanner.nextLine().trim();
 
             if (searchEnd.isEmpty()){
